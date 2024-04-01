@@ -12,11 +12,11 @@ export const router = createBrowserRouter([
     children:[
         {
             path:'/',
-            element:<Home></Home>
+            element:<Home></Home>,
         },
         {
             path:'/loing',
-            element:<Loing></Loing>
+            element:<Loing></Loing>,
         },
         {
             path:'/regster',
