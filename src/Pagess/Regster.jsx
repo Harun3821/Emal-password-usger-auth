@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from "../Firebese/frisebess.confif";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -17,10 +17,11 @@ const Regster = () => {
 
      const handelRegister = (e) =>{
         e.preventDefault();
+        const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         const accept = e.target.terms.checked;
-        console.log(email, password, accept)
+        console.log(name, email, password, accept)
      
 
 
@@ -54,6 +55,18 @@ const Regster = () => {
             alert('Please verify your email address')
           }
 
+          //updet profile
+          updateProfile(result.user, {
+            displayName: name,
+            photoURL:"https://example.com/jane-q-user/profile.jpg"
+          })
+          .then(()=>{
+            console.log('Profile updetd')
+          })
+          .catch(()=>{
+
+          })
+
           // sent email Verification
           sendEmailVerification(result.user)
           .then(()=>{
@@ -81,6 +94,9 @@ const Regster = () => {
     
        <form  onSubmit={handelRegister} className="py-10 space-y-6 text-center">
          {/* xs */}
+         <input type="text" placeholder="Name" required name="name" 
+         className="input input-bordered input-md w-full max-w-xs"/>
+         <br/>
          <input type="email" placeholder="Email" required name="email" 
          className="input input-bordered input-md w-full max-w-xs"/>
         {/* sm */} <br></br>
@@ -90,6 +106,7 @@ const Regster = () => {
           placeholder="password" 
           required name="password" 
           className="input input-bordered input-md w-full max-w-xs"/>
+          
           <span className="absolute top-4 -ml-6" onClick={()=> setShowpassword(!showpassword)}>
             {
               showpassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
